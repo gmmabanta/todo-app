@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-export const fetchTodos = async () => {
+export const fetchTodosFn = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_TODO_API_URL}?_limit=10`)
   if (!res.ok) throw new Error('Failed to fetch todos')
   return res.json();
@@ -18,7 +18,7 @@ export function useTodos() {
   // Fetch todos
   const { data: todos, isLoading, isError, error } = useQuery<Todo[]>({
     queryKey: ['todos'],
-    queryFn: fetchTodos,
+    queryFn: fetchTodosFn,
   })
 
   return {

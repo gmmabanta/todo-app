@@ -15,7 +15,7 @@ export default function TodoModal() {
     <Modal
       open={Boolean(selectedTodo.id)}
       toggle={(value: boolean) => !value && setSelectedTodo(null)}
-      title="Todo Details"
+      title="To Do Details"
       body={
         <div className="flex flex-col gap-1">
           <div>{selectedTodo.title}</div>

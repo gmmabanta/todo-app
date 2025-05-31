@@ -1,15 +1,30 @@
-import { useQuery } from '@tanstack/react-query'
-const API_URL = 'https://jsonplaceholder.typicode.com';
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
 
 export const fetchTodos = async () => {
-  const res = await fetch(`${API_URL}/todos?_limit=10`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_TODO_API_URL}?_limit=10`)
   if (!res.ok) throw new Error('Failed to fetch todos')
-  return res.json()
+  return res.json();
+}
+
+export type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
 }
 
 export function useTodos() {
-  return useQuery({
+  // Fetch todos
+  const { data: todos, isLoading, isError, error } = useQuery<Todo[]>({
     queryKey: ['todos'],
     queryFn: fetchTodos,
   })
+
+  return {
+    data: todos,
+    isLoading,
+    isError,
+    error
+  }
 }

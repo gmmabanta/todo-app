@@ -36,7 +36,7 @@ export default function TodoList() {
       <div className="space-y-2 w-md min-w-sm max-w-lg">
         {todos.length == 0 ? (
           <div className="flex justify-center py-2 text-gray-500 italic">
-            Completed all todos
+            You have nothing on your to do list!
           </div>
         ) : (
           todos.map((todo) => <TodoListItem key={todo.id} todo={todo} />)

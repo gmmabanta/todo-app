@@ -8,26 +8,18 @@ import { useTodos } from "../hooks/useTodos";
 
 import Loader from "./common/Loader";
 import TodoModal from "./TodoModal";
-
-import {
-  TrashIcon,
-  CheckCircleIcon as CheckCircleOutlineIcon,
-} from "@heroicons/react/24/outline";
-import { CheckCircleIcon as CheckCircleSolidIcon } from "@heroicons/react/24/solid";
+import TodoListItem from "./TodoListItem";
 
 export default function TodoList() {
-  const { todos, deleteTodo, toggleDone, setSelectedTodo, selectedTodo } =
-    useTodoStore();
+  const { todos, selectedTodo } = useTodoStore();
   const { showToast } = useToast();
 
   const { data, error, isLoading } = useTodos();
   const { setTodos } = useTodoStore();
 
   useEffect(() => {
-    if (data) {
-      setTodos(data);
-      showToast("Todos successfully loaded", "success");
-    }
+    if (data) setTodos(data);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -36,7 +28,7 @@ export default function TodoList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader type="page" size="24" />;
 
   return (
     <>
@@ -47,46 +39,7 @@ export default function TodoList() {
             Completed all todos
           </div>
         ) : (
-          todos.map((todo) => (
-            <div
-              key={todo.id}
-              className="flex justify-between items-center gap-3 bg-white shadow p-4 rounded"
-            >
-              <button onClick={() => toggleDone(todo.id)}>
-                {todo.completed ? (
-                  <CheckCircleSolidIcon className="size-6 text-blue-600" />
-                ) : (
-                  <CheckCircleOutlineIcon className="size-6 text-gray-500" />
-                )}
-              </button>
-              <div
-                onClick={() => setSelectedTodo(todo)}
-                className="flex-1 cursor-pointer"
-              >
-                <p
-                  className={
-                    todo.completed ? "line-through text-gray-400" : "text-black"
-                  }
-                >
-                  {todo.title}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    deleteTodo(todo.id);
-                    showToast(
-                      `Successfully deleted todo: ${todo.title}`,
-                      "success"
-                    );
-                  }}
-                  className="hover:bg-red-100 p-1 rounded-full"
-                >
-                  <TrashIcon className="size-6 text-red-500" />
-                </button>
-              </div>
-            </div>
-          ))
+          todos.map((todo) => <TodoListItem key={todo.id} todo={todo} />)
         )}
         {selectedTodo && <TodoModal />}
       </div>

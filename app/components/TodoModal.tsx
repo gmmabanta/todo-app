@@ -4,12 +4,11 @@ import { useTodoStore } from "../store/todoStore";
 
 import Modal from "./common/Modal";
 import Pill from "./common/Pill";
-import { useToast } from "../providers/ToastProvider";
+import { useDeleteTodo } from "../hooks/useDeleteTodo";
 
 export default function TodoModal() {
-  const { selectedTodo, setSelectedTodo, deleteTodo } = useTodoStore();
-  const { showToast } = useToast();
-
+  const { selectedTodo, setSelectedTodo } = useTodoStore();
+  const { isPending: isDeletePending, mutate: deleteTodo } = useDeleteTodo();
   if (!selectedTodo) return null;
 
   return (
@@ -30,12 +29,9 @@ export default function TodoModal() {
         {
           text: "Delete",
           type: "delete",
+          disabled: isDeletePending,
           fn: () => {
             deleteTodo(selectedTodo.id);
-            showToast(
-              `Successfully deleted todo: ${selectedTodo.title}`,
-              "success"
-            );
           },
         },
         {

@@ -1,9 +1,21 @@
-export default function Loader() {
+type LoaderProps = {
+  type?: "page" | "component";
+  size?: string;
+};
+
+export default function Loader({
+  type = "component",
+  size = "10",
+}: LoaderProps) {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div
+      className={`flex justify-center items-center m-[-8px] ${
+        type == "page" ? "h-screen" : ""
+      }`}
+    >
       <svg
         fill="none"
-        className="w-18 h-18 text-gray-500 animate-spin"
+        className={`w-${size} h-${size} m-0 p-0 text-gray-500 animate-spin`}
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
       >

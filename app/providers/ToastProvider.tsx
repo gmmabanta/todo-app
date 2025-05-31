@@ -7,6 +7,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
+const STACK_LIMIT = 3;
+
 type Toast = {
   id: number;
   message: string;
@@ -24,8 +26,6 @@ export const useToast = () => {
   if (!context) throw new Error("useToast must be used within ToastProvider");
   return context;
 };
-
-const STACK_LIMIT = 3;
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -52,7 +52,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`px-4 py-2 rounded shadow animate-fade-in-up transition-opacity flex flex-row gap-3 justify-between w-75`}
+            className={`px-4 py-2 rounded shadow animate-fade-in-up transition-opacity flex flex-row gap-3 justify-between w-75 bg-white`}
           >
             <div>
               {toast.type == "success" ? (

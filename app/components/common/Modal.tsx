@@ -8,6 +8,7 @@ interface ActionButton {
   text: string;
   type: "cancel" | "delete" | "save";
   fn: () => void;
+  disabled?: boolean;
 }
 interface ModalProps {
   open: boolean;
@@ -67,6 +68,7 @@ export default function Modal({
               <button
                 key={b.text}
                 onClick={() => b.fn()}
+                disabled={Boolean(b.disabled)}
                 className={`mt-4 px-4 py-2 border-1 rounded bg-white ${
                   b.type == "delete"
                     ? " hover:bg-red-600 hover:text-white border-red-600 text-red-600"
